@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Resume</title>
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    (function() {
+      emailjs.init("buiqfKDEVu41_wpR-"); // Replace with your actual EmailJS public key
+    })();
+  </script>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 450px;
+      text-align: center;
+    }
+    .profile-img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 3px solid #007BFF;
+      margin-bottom: 1rem;
+    }
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+    }
+    button {
+      padding: 0.75rem 2rem;
+      border: none;
+      background: #007BFF;
+      color: white;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .error {
+      color: red;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="your-photo.jpg" alt="My Photo" class="profile-img">
+    <h2>Welcome to My Resume</h2>
+    <p>I'm Venkadesan. from Chennai,A passionate MSc Computer Science graduate with hands-on 
+        experience in full-stack development and data analysis. Currently working in a 
+        startup and growing as a software developer.</p>
+
+    <input type="text" id="username" placeholder="Your Name">
+    <input type="email" id="email" placeholder="Your Gmail (e.g. example@gmail.com)">
+    <div class="error" id="error"></div>
+    <button onclick="sendMail()">Download Resume</button>
+  </div>
+
+  <script>
+    function sendMail() {
+  const name = document.getElementById('username').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const errorDiv = document.getElementById('error');
+
+  if (name === '') {
+    errorDiv.textContent = 'Please enter your name.';
+    return;
+  }
+
+  if (!email.endsWith('@gmail.com')) {
+    errorDiv.textContent = 'Only Gmail addresses are accepted.';
+    return;
+  }
+
+  const templateParams = {
+    user_name: name,
+    user_email: email
+  };
+
+  emailjs.send('service_0lsdr66', 'template_4ekur08', templateParams)
+    .then(function(response) {
+      errorDiv.style.color = 'green';
+      errorDiv.textContent = 'Email sent successfully! Starting download...';
+
+      const link = document.createElement('a');
+      link.href = 'https://drive.google.com/file/d/11oagflIxW1N087bf8buqCuCOTr7OPkF5/view?usp=drive_link'; // Resume file
+      link.download = 'Venket_Resume.pdf';
+      link.click();
+    }, function(error) {
+      errorDiv.textContent = 'Failed to send email. Try again.';
+    });
+}
+  </script>
+</body>
+</html>
